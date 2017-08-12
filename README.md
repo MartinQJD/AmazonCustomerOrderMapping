@@ -1,6 +1,6 @@
 # AmazonCustomerOrderMapping
 ------------------------------------------------------------------
-Map customer id to order id by opening and parsing order pages from sellercentral.amzon.com
+Build mappings beween customer-id and order-id for amazon orders
 ------------------------------------------------------------------
 
 On the amazon marketplace, sometimes, your customer left a review on your listing, and you hope know which order that your customer placed, and then send message by the order to your customer to actively help resolve customer's problem. However, you will find that seems impossible, because you cannot directly relate reviews to orders at all. 
@@ -15,7 +15,7 @@ Firstly,you need to get the customer Id of the review. To do this, you need to k
 
 Next,you hope know which order(s) the customer id placed. If you know that,you can send message to your customer by the order. 
 Before introduce the project,I need to tell you a backgound. When you search orders in your seller central, the search result is a list of order infos. Seemingly, the order info include order id and customer name, but not customer id. In fact, customer id also has been included, but hides in the source code of the web page. If you know how to spy the source code, you will find out it.
-It's exciting. But even if you know how to find out the customer id for an order, it still is the nightmare when you find out all of cutomer id for all orders, maybe 10,100,1000 or more orders.
+It's exciting. But even if you know how to find out the customer id for an order, it still is the nightmare when you need to find out all of cutomer id for all orders, maybe 10,100,1000 or more orders.
 um......Don't worry,this project is subject to wake you up from the nightmare.
 
 This project is a program coded with python.

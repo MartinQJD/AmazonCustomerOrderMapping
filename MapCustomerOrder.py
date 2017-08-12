@@ -237,17 +237,17 @@ if __name__=="__main__":
             #FOR EXAMPLE
             #////////////////////////////////////////////////
             
-            #SKU:EPA-511790-C35-FBA 
-            print("\nBegin to download SKU:EPA-511790-C35-FBA")
-            ret=GetCustomerOrderMapping(driver,'EPA-511790-C35-FBA',datePeriod,MARKET_US_ID)
+            #SKU:M000001 
+            print("\nBegin to download SKU:M000001")
+            ret=GetCustomerOrderMapping(driver,'M000001',datePeriod,MARKET_US_ID)
             if len(ret)>0:
-                SaveData("C:\\CustomerOrders\\US_EPA-511790-C35-FBA.csv",ret)
+                SaveData("C:\\CustomerOrders\\M000001.csv",ret)
             
-            #SKU:E-510560-FBA
-            print("\nBegin to download SKU:E-510560-FBA")
-            ret=GetCustomerOrderMapping(driver,'E-510560-FBA',datePeriod,MARKET_US_ID)
+            #SKU:M000002
+            print("\nBegin to download SKU:M000002")
+            ret=GetCustomerOrderMapping(driver,'M000002',datePeriod,MARKET_US_ID)
             if len(ret)>0:
-                SaveData("C:\\CustomerOrders\\US_E-510560-FBA.csv",ret)
+                SaveData("C:\\CustomerOrders\\M000002.csv",ret)
             
             #/////////////////////////////////////////////
             

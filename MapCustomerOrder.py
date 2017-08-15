@@ -215,8 +215,12 @@ def SaveData(fileName,data):
     
 if __name__=="__main__":
     try:
+        driver=None
         #Create a new chrome browser instance and open amazon seller central site 
-        driver=webdriver.Chrome()
+        options = webdriver.ChromeOptions() 
+        options.add_argument("user-data-dir=C:\\CustomerOrders\\AutomationRobot")  #use to save user profile related data
+        driver=webdriver.Chrome(chrome_options=options)
+        
         driver.get("https://SellerCentral.amazon.com")
         driver.maximize_window()
         

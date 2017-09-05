@@ -1,5 +1,6 @@
 import sys
 import time
+import datetime as dt
 import os
 from sys import stdin
 from selenium import webdriver
@@ -123,6 +124,32 @@ def Show100RowsPerPage(driver):
     time.sleep(5)
     
 def GetCustomerOrderMapping(driver,sku,lastDays,marketplaceId):
+    #split lastdays with 30 days to batch getting data
+    batchs=round(lastDays/30)
+    quotient=lastDays%30
+    
+    fromdate=dt.datetime.now()-dt.timedelta(days=lastDays)
+    todate=fromdate+dt.timedelta(days=quotient)
+    
+    data=[]
+    
+    if quotient>0:
+        ret=GetCustomerOrderMappingByScope(driver,sku,fromdate.strftime('%m/%d/%y'),todate.strftime('%m/%d/%y'),marketplaceId)
+        fromdate=todate+dt.timedelta(days=1)
+        if len(ret)>0:
+            data.extend(ret)
+
+    while batchs>0:
+        todate=fromdate+dt.timedelta(days=30)
+        ret=GetCustomerOrderMappingByScope(driver,sku,fromdate.strftime('%m/%d/%y'),todate.strftime('%m/%d/%y'),marketplaceId)
+        fromdate=todate+dt.timedelta(days=1)
+        batchs=batchs-1
+        if len(ret)>0:
+            data.extend(ret)
+
+    return data
+	
+def GetCustomerOrderMappingByScope(driver,sku,fromDate,toDate,marketplaceId):
     driver.get("https://sellercentral.amazon.com/gp/orders-v2/search/ref=ag_myosearch_apsearch_myo")
     #Search Type = SKU
     driver.find_element_by_xpath("//select[@name='searchType']/option[@value='MerchantSKU']").click()
@@ -130,16 +157,16 @@ def GetCustomerOrderMapping(driver,sku,lastDays,marketplaceId):
     driver.find_element_by_name("searchKeyword").send_keys(sku)
     
     #Choose exact date scope
-    #driver.find_element_by_id("_myoSO_SearchOption_exactDates").click()
-    #exactDateBegin=driver.find_element_by_id("exactDateBegin")
-    #exactDateBegin.clear()
-    #exactDateBegin.send_keys(fromDate)
-    #exactDateEnd=driver.find_element_by_id("exactDateEnd")
-    #exactDateEnd.clear()
-    #exactDateEnd.send_keys(toDate)
+    driver.find_element_by_id("_myoSO_SearchOption_exactDates").click()
+    exactDateBegin=driver.find_element_by_id("exactDateBegin")
+    exactDateBegin.clear()
+    exactDateBegin.send_keys(fromDate)
+    exactDateEnd=driver.find_element_by_id("exactDateEnd")
+    exactDateEnd.clear()
+    exactDateEnd.send_keys(toDate)
     
     #Select last days to search
-    driver.find_element_by_xpath("//select[@name='preSelectedRange']/option[@value='" + str(lastDays) + "']").click()
+    #driver.find_element_by_xpath("//select[@name='preSelectedRange']/option[@value='" + str(lastDays) + "']").click()
     
     #OrderStatus = Shipped
     driver.find_element_by_xpath("//select[@name='statusFilter']/option[@value='Shipped']").click()
